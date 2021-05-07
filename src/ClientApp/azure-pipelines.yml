@@ -48,6 +48,8 @@ stages:
         echo $(docker run --rm -v "$(pwd):/repo" gittools/gitversion:5.0.1-linux-netcoreapp2.1 /repo) > .gitversion
         echo $(cat .gitversion | grep -oP '(?<="MajorMinorPatch":")[^"]*') > src/ClientApp/public/version.txt
         echo $(cat .gitversion | grep -oP '(?<="FullSemVer":")[^"]*' | sed -e "s/\+/-/g") > src/ClientApp/public/semver.txt
+        echo 'demo' > src/ClientApp/public/version.txt
+        echo 'demo' > src/ClientApp/public/semver.txt
       displayName: 'bump version'
 
     - task: PublishBuildArtifacts@1
@@ -68,8 +70,6 @@ stages:
         deploy:
           steps:
           - script: |
-              echo 'demo' > "$(Pipeline.Workspace)/drop/version.txt
-              echo 'demo' > "$(Pipeline.Workspace)/drop/semver.txt
               echo '##vso[task.setvariable variable=releaseVersion]'$(cat "$(Pipeline.Workspace)/drop/version.txt")
               echo '##vso[task.setvariable variable=releaseSemVer]'$(cat "$(Pipeline.Workspace)/drop/semver.txt")
             displayName: 'set release version'
