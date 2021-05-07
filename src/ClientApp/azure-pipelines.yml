@@ -86,6 +86,7 @@ stages:
           - script: |
               echo $(releaseVersion)
               echo $(azureArmClientId)
+              echo $(releaseSemVer)
               az login --service-principal -u $(azureArmClientId) -p $(azureArmClientSecret) --tenant $(azureArmTenantId)
               # upload content to container versioned folder
               az storage blob upload-batch -s "$(Pipeline.Workspace)/drop" --destination "\$web\$(releaseSemVer)" --account-name $(azureStorageAccountName) --content-encoding br --pattern "*.html" --content-type "text/html"
