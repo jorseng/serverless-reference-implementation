@@ -68,6 +68,8 @@ stages:
         deploy:
           steps:
           - script: |
+              echo 'demo' > "$(Pipeline.Workspace)/drop/version.txt
+              echo 'demo' > "$(Pipeline.Workspace)/drop/semver.txt
               echo '##vso[task.setvariable variable=releaseVersion]'$(cat "$(Pipeline.Workspace)/drop/version.txt")
               echo '##vso[task.setvariable variable=releaseSemVer]'$(cat "$(Pipeline.Workspace)/drop/semver.txt")
             displayName: 'set release version'
